@@ -1,0 +1,14 @@
+
+<div class="row row-cols-3" *ngIf="(productList$ | async) as productList; else loadingProducts">
+  <div class="col" *ngFor="let product of productList">
+    <app-product-card [product]="product"></app-product-card>
+  </div>
+</div>
+
+<ng-template #loadingProducts>
+  <p>Loading</p>
+  <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>   
+      
+    </div>
+</ng-template>
