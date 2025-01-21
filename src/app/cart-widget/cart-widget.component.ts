@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Product } from '../entities/product';
 import { KartInfo } from '../entities/kartInfo';
@@ -12,20 +12,33 @@ export class CartWidgetComponent implements OnInit {
 
   constructor(private userSvc:UserService) { }
 
-  productList:Product[] | undefined=[]
-  isLoading = false
+  @Input() productList:Product[] | undefined=[]
+  @Input()isLoading = false
+  totalPrice:number=0
 
-  async ngOnInit(): Promise<void> {
-    this.isLoading=true
-    this.productList = await this.userSvc.getKartByUserId(this.userSvc.userId).toPromise()
-    this.isLoading=false
+  ngOnInit(){
+
+    
+   
+  }
+
+  public getTotalPrice():number | undefined{
+    if(this.productList!=undefined && this.productList?.length >0){
+
+      return this.productList.map(el=> el.price).reduce((x,y) => x + y)
+    }
+    else{
+      
+      return 0
+    }
+      
   }
 
 public async addToCart(product:KartInfo):Promise<void>{
     if(product != undefined){
       let kartInfo : KartInfo ={
         productId: product.productId,
-        userId: this.userSvc.userId
+        userId: this.userSvc.userId.value
       }
       this.isLoading=true
       await this.userSvc.addProductToKart(kartInfo).toPromise().then(
@@ -38,37 +51,33 @@ public async addToCart(product:KartInfo):Promise<void>{
   }
 
 
-public async removeFromCart(product:KartInfo):Promise<void>{
+public async removeFromCart(product:Product):Promise<void>{
   if(product != undefined){
     let kartInfo : KartInfo ={
-      productId: product.productId,
-      userId: this.userSvc.userId
+      productId: product.id,
+      userId: this.userSvc.userId.value
     }
     this.isLoading=true
     await this.userSvc.DeleteProductToKart(kartInfo).toPromise().then(
       (res) => window.alert("product is succesfully removed from the cart"),
       (err) => window.alert("something went wrong:" + err)
-    )
+    ).finally(() => this.userSvc.updatedKart$.next(true))
     this.isLoading=false
   }
     
 }
 
 
-public async emptyCart(product:KartInfo):Promise<void>{
-  if(product != undefined){
-    let kartInfo : KartInfo ={
-      productId: product.productId,
-      userId: this.userSvc.userId
-    }
+public async emptyCart():Promise<void>{
+
     this.isLoading=true
-    await this.userSvc.EmptyKart(this.userSvc.userId).toPromise().then(
+    await this.userSvc.EmptyKart(this.userSvc.userId.value).toPromise().then(
       (res) => window.alert("Order was placed. Cart has been succesfully cleared"),
       (err) => window.alert("something went wrong:" + err)
-    )
+    ).finally(() => this.userSvc.updatedKart$.next(true))
     this.isLoading=false
   }
     
-}
+
 
 }

@@ -10,9 +10,13 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CartWidgetComponent } from './cart-widget/cart-widget.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 export const IMPORTS =[
-  HttpClientModule
+  HttpClientModule,
+  ReactiveFormsModule
+  ,CarouselModule
 ]
 
 @NgModule({

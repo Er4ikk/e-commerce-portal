@@ -10,25 +10,46 @@
       <svg class="bi me-2" width="30" height="24">
         <use xlink:href="#bootstrap"></use>
       </svg>
-      <span class="fs-5 fw-semibold">List group</span>
+      <span class="fs-5 fw-semibold">Your cart</span>
     </a>
     <div class="list-group list-group-flush border-bottom scrollarea">
       <div *ngIf="isLoading" class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <div *ngIf="!isLoading">
+      <div class="text-center" *ngIf="!isLoading">
         <a
-          href="#"
           *ngFor="let product of productList"
           class="list-group-item list-group-item-action py-3 lh-tight"
           aria-current="true"
         >
-          <div class="d-flex w-100 align-items-center justify-content-between">
-            <strong class="mb-1">{{ product.name }}</strong>
+          <div class="d-flex w-100 align-items-center custom-item">
+            <div class="row align-items-center">
+              <div class="col">
+                <strong class="mb-1">{{ product.name }}</strong>
+              </div>
+              <div class="col">
+                <button type="button" class="btn btn-dark mb-1" (click)="removeFromCart(product)">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-x-lg"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
             <small>{{ product.price | currency }}</small>
           </div>
-          <div class="col-10 mb-1 small">uttons for adding or removing</div>
-        </a>
+        </a>  
+        
+        <h2 class="mb-1">Total: {{getTotalPrice() | currency}}</h2>
+        <button class="btn btn-dark" (click)="emptyCart()"> ORDER NOW</button>
       </div>
     </div>
   </div>

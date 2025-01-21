@@ -1,9 +1,9 @@
 
-<div class="card" style="width: 18rem;">
-    <img [src]="" class="card-img-top" alt="...">
+<div class="card" style="width: 18rem; margin: 0 auto;">
+    <img width="300" height="200"  *ngIf="product.pictures && product.pictures.length > 0" [src]="product.pictures[0]" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title">{{product.name | titlecase}}</h5>
       <p class="card-text center">{{product.price | currency}}</p>
-      <a [routerLink]="['/product',product.id]" class="btn btn-primary">Go to Detail</a>
+      <a [routerLink]="['/product',product.id]" class="btn btn-dark">Go to Detail</a>
     </div>
   </div>

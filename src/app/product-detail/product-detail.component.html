@@ -1,26 +1,36 @@
-<div *ngIf="product; else noProductAvailable">
+<div class="text-center" *ngIf="product; else noProductAvailable">
 
     <div>
-        <img [src]="photo" *ngFor="let photo of product.pictures">
+   
+          <carousel>
+            <slide *ngFor="let photo of product.pictures">
+              <img width="1000" height="700" [src]="photo" alt="first slide" style="display: block; width: 100%;">
+            </slide>
+           
+          </carousel>
+        
     </div>
-    <h1>{{product.name}}</h1>
-    <p>{{product.price}}</p>
-    <p>{{product.color}}</p>
-    <p>{{product.price |currency}}</p>
-    <div class="row row-cols-2">
-        <div class="col-2">
+    <h1>{{product.name |titlecase}}</h1>
+    <p>Size: {{product.size}}</p>
+    <p>Color: {{product.color}}</p>
+    <p>Current price: {{product.price |currency}}</p>
 
-    <button type="button" class="btn btn-primary" (click)="addToCart()">
+    <div style="justify-items: center;">
+    <div class="row">
+        <div class="col">
+
+    <button type="button" class="btn btn-dark" (click)="addToCart()">
         ADD TO CART
      </button>
         </div>
-        <div class="col-1">
-            <div *ngIf="isLoading"  class="spinner-border" role="status">
+        <div class="col-1" *ngIf="isLoading" >
+            <div  class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>   
                 
               </div>
         </div>
     </div>
+</div>
     
 
     

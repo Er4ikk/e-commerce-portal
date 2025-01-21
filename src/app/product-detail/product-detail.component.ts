@@ -32,16 +32,20 @@ export class ProductDetailComponent implements OnInit {
     if(this.product != undefined){
       let kartInfo : KartInfo ={
         productId: this.product.id,
-        userId: this.userSvc.userId
+        userId: this.userSvc.userId.value
       }
       this.isLoading=true
       await this.userSvc.addProductToKart(kartInfo).toPromise().then(
-        (res) => window.alert("product is added succesfully to the cart"),
+        (res) =>{
+          this.userSvc.updatedKart$.next(true); 
+          window.alert("product is added succesfully to the cart")
+        },
         (err) => window.alert("something went wrong:" + err)
       )
       this.isLoading=false
     }
       
   }
+  
 
 }

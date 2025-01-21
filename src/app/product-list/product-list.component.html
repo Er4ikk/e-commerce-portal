@@ -1,9 +1,16 @@
 
-<div class="row row-cols-3" *ngIf="(productList$ | async) as productList; else loadingProducts">
-  <div class="col" *ngFor="let product of productList">
-    <app-product-card [product]="product"></app-product-card>
+<div  *ngIf="(productList$ | async) as productList; else loadingProducts">
+  <div class="row row-cols-3 mt-3">
+    <div class="col mb-3" *ngFor="let product of productList|slice:0:productlistSize;">
+      <app-product-card class="text-center" [product]="product"></app-product-card>
+    </div>
   </div>
+  <div class="text-center">
+    <button *ngIf="productlistSize < productList.length" class="btn btn-dark" (click)="loadMore()">Load more</button>
+  </div>
+
 </div>
+
 
 <ng-template #loadingProducts>
   <p>Loading</p>
